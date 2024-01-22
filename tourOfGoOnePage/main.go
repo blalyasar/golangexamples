@@ -67,6 +67,23 @@ func pow2(x, n, lim float64) float64 {
 func needInt(x int) int           { return x*10 + 1 }
 func needFloat(x float64) float64 { return x * 0.1 }
 
+type Vertex struct {
+	X int
+	Y int
+}
+
+// structin diğer bir yazim bicimi
+// type Vertex struct{
+// 	X, Y int
+// }
+
+var (
+	vervar1 = Vertex{1, 2}  // has type vertex
+	vervar2 = Vertex{X: 1}  // y is implict
+	vervar3 = Vertex{}      // x 0 y 0
+	vervarp = &Vertex{1, 2} // has type *Vertex
+)
+
 func main() {
 	// page 1 ln yenı satıra yazar
 	fmt.Println("Benim fav numaram ", rand.Intn(10))
@@ -219,18 +236,72 @@ func main() {
 	// defer fmt.Println("world")
 	// fmt.Println("hello2")
 
-	//
-	fmt.Println("COUNTING")
-	for i := 0; i < 10; i++ {
-		defer fmt.Println(i)
+	// Tum  sonraki değerlerden sonra ekrana yazdirilir bu yuzden comment out edildi
+	// fmt.Println("COUNTING")
+	// for i := 0; i < 10; i++ {
+	// 	defer fmt.Println(i)
+	// }
+	// fmt.Println("done")
+
+	// İşaretçiler --- Pointers https://go.dev/tour/moretypes/1 devam
+	p1, p2 := 42, 2701
+
+	p3 := &p1
+	fmt.Println(*p3) // 42
+
+	*p3 = 21
+	fmt.Println(p1) // 21
+
+	p3 = &p2
+	*p3 = *p3 / 37
+	fmt.Println(p2) // 73
+
+	// STRUCT
+
+	fmt.Println(Vertex{1, 2})
+	ver := Vertex{1, 2}
+	ver.X = 4
+	fmt.Println(ver.X)
+
+	//  struct ve pointer
+	// yapilar ve pointer
+	verp := Vertex{1, 2}
+	verp1 := &verp
+	verp1.X = 1e9
+	fmt.Println(verp)
+
+	// struct literals
+	fmt.Println(vervar1, vervarp, vervar2, vervar3)
+
+	// arrays diziler
+	var arrayone [2]string
+	arrayone[0] = "hello"
+	arrayone[1] = "world"
+
+	fmt.Println(arrayone[0], arrayone[1])
+	fmt.Println(arrayone)
+
+	primes := [6]int{2, 3, 5, 7, 11, 13}
+	fmt.Println(primes)
+	// array parcalama
+	primesarray := [6]int{2, 3, 5, 7, 11, 13}
+	var primesarrayonefour []int = primesarray[1:4]
+	fmt.Println(primesarrayonefour) // 3 5 7
+
+	// string slices string parcalama
+	namesarray := [4]string{
+		"ali",
+		"veli",
+		"jale",
+		"halil",
 	}
-	fmt.Println("done")
-	
+	fmt.Println(namesarray) // [ali veli jale halil]
+	aa := namesarray[0:2] 
+	bb := namesarray[1:3]
+	fmt.Println(aa, bb) // [ali veli] [veli jale]
 
-
-
-
-
-	// İşaretçiler --- Pointers
+	bb[0] =  "XXX"
+	fmt.Println(aa,bb) // [ali XXX] [XXX jale]
+	fmt.Println(namesarray) // [ali XXX jale halil]
 
 }
